@@ -1,0 +1,10 @@
+  GNU nano 7.2                                                              Dockerfile                                                                       # Utiliser l'image Nginx officielle
+FROM nginx:latest
+
+# Copier le fichier de configuration nginx.conf dans le conteneur
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Exposer le port 80
+EXPOSE 80
+
+
