@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    volumes:
+      - ./tp/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "80:80"
+    depends_on:
+      - nginx
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./tp/nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - apache1
+      - apache2
+      - apache3
+
+  apache1:
+    image: httpd:latest
+    container_name: apache1
+    volumes:
+      - ./tp/web1:/usr/local/apache2/htdocs
+
+  apache2:
+    image: httpd:latest
+    container_name: apache2
+    volumes:
+      - ./tp/web2:/usr/local/apache2/htdocs
+
+  apache3:
+    image: httpd:latest
+    container_name: apache3
+    volumes:
+      - ./tp/web3:/usr/local/apache2/htdocs
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: appdb
+    ports:
+      - "3306:3306"
